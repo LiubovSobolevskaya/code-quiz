@@ -52,3 +52,10 @@ h1 {
 .start-quiz{
     margin: 35px auto;
 }
+
+#result{
+    text-align: center;
+    color: gray;
+    font-size: 15px;
+
+}
