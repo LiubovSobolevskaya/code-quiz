@@ -1,0 +1,19 @@
+[
+    {
+        "question": "Inside which HTML element do we put the JavaScript?",
+        "correct answer": "<script>",
+        "list of wrong answers": ["<js>","<javascript>", "<scripting>"]
+    },
+    {
+        "question": "What is the correct JavaScript syntax to change the content of the HTML element below?",
+        "correct answer": "document.getElementById('demo').innerHTML = \"Hello World!\";",
+        "list of wrong answers": ["document.getElementByName(\"p\").innerHTML = 'Hello World!';",
+            "#demo.innerHTML = \"Hello World!\"åå;",
+            "document.getElement(\"p\").innerHTML = \"Hello World!\";"]
+    },
+    {
+        "question": "Where is the correct place to insert a JavaScript?",
+        "correct answer": "Both the <head> section and the <body> section are correct  ",
+        "list of wrong answers": ["The <body> section", "The <head> section"]
+    }
+]

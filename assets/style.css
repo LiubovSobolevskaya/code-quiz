@@ -1,0 +1,54 @@
+.scores{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.main-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.main-area #question{
+
+   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   color:blue;
+   margin: 50px auto;
+   text-align: center;
+   width: 70%
+}
+
+.main-area ul {
+
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 10px auto;
+    text-align: center;
+    width: 70%
+ }
+ 
+ .main-area ul li{
+    margin: 10px auto;
+    background-color: blueviolet;
+    color:white;
+    border-radius: 10px;
+ }
+ 
+
+.main-board{
+    margin: 35px auto;
+    text-align: center;
+    width: 70%
+}
+.timer{
+    position: absolute;
+    right:0;
+    top: 0;
+}
+
+h1 {
+    margin: 35px auto;
+}
+
+.start-quiz{
+    margin: 35px auto;
+}
