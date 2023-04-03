@@ -9,7 +9,7 @@ async function fetchData() {
 }
   
 function processData(questions) {
-
+    
     var totalQuestions = questions.length;
     var questionsAnswered = [];
     for (var i=0; i<totalQuestions; i++){
@@ -18,14 +18,55 @@ function processData(questions) {
     var questionCounter = -1;
     var storedScores =  document.querySelector(".scores");
     var startButton = document.querySelector(".start-quiz");
-    var timer = document.querySelector(".timer");
     var secondsLeft = 60;
     var board = document.querySelector(".main-area");
+    var countdown = document.querySelector("#seconds");
+    var timer;
+    var completedQuiz = false;
+
+    function startTimer() {
+        timer = setInterval(function() {
+          secondsLeft--;
+          countdown.textContent = secondsLeft;
+          if (secondsLeft >= 0) {
+            // Tests if win condition is met
+            if (completedQuiz && econdsLeft > 0) {
+              // Clears interval and stops timer
+              clearInterval(timer);
+              winScreen(); 
+            }
+          }
+          // Tests if time has run out
+          if (secondsLeft <= 0) {
+            // Clears interval
+            clearInterval(timer);
+            loseScreen();
+          }
+        }, 1000);
+    }
+    
+    function winScreen(){
+        board.innerHTML = "";
+        congr = document.createElement("h1");
+        congr.textContent = `Congratulations! You passt the quiz. Your score is ${secondsLeft}`;
+        board.appendChild(congr);
+    }
+
+    function loseScreen(){
+        board.innerHTML = "";
+        wasted = document.createElement("img");
+        wasted.src = "assets/imgs/wasted.jpeg";
+        wasted.width = 80%
+        board.appendChild(wasted);
+    }
+
 
     function startTheQuiz(event){
 
         board.innerHTML = "";
         displayQuestion();
+        startTimer();
+        board.appendChild(answers);
 
     }
 
@@ -35,17 +76,14 @@ function processData(questions) {
     function displayQuestion(){
         questionCounter ++;
         if (questions[questionCounter]== null){
-            var statementToDisplay = document.createElement("h1");
-            statementToDisplay.textContent = "YOU WON!"
-            board.append(statementToDisplay)
-
+            won = true;
             return;
         }
         var questionToDisplay = document.createElement("p");
         questionToDisplay.id = "question"
-        board.append(questionToDisplay)
+        board.appendChild(questionToDisplay)
         answers = document.createElement("ul");
-        board.append(answers)
+        board.appendChild(answers)
         
         var wrong_answers = questions[questionCounter]["list of wrong answers"];
         var correct_answer = questions[questionCounter]["correct answer"];
@@ -61,10 +99,8 @@ function processData(questions) {
             li.id = i;
             console.log(typeof wrong_answers[i])
             li.textContent = wrong_answers[i];
-            answers.append(li);
+            answers.appendChild(li);
         }
-        
-
     }
 
     function selectAnAnswer(event){
@@ -75,32 +111,33 @@ function processData(questions) {
             
             if (element.matches("li")){ 
                 index = element.id;
+                
                 var result = document.createElement("h3");
-                board.append(result);  
+                board.appendChild(result);  
                 result.id = "result";
                 if (index == correct_index){
-                        console.log('we are correct!')
                         result.textContent = 'Correct!';
                     }
                     else{
-                        console.log('we are wrong!')
-                        result.textContent = 'Wrong! 5 seconds are subtracted now!'
+                        result.textContent = 'Wrong! 5 seconds are subtracted now!';
+                        secondsLeft -= 5;
                     }
                 
                 questionsAnswered[questionCounter] = true;
                 setTimeout(goToNextQuestion, 1000);
             
             }
-
-
         }
-  
-
     }
 
     function goToNextQuestion(){
-        board.innerHTML = "";
-        displayQuestion();
+        if (questionCounter < totalQuestions && secondsLeft>0){
+            board.innerHTML = "";
+            displayQuestion();
+        }
+        else{
+            won = True;
+        }
     }
 
     board.addEventListener("click", selectAnAnswer);
