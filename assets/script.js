@@ -11,23 +11,25 @@ async function fetchData() {
 function processData(questions) {
     var modalEl = document.querySelector("#score-container");
     var modalSave = document.querySelector("#save-results");
+    var board = document.querySelector(".main-area");
+    var countdown = document.querySelector("#seconds");
+    var gameTimer = document.querySelector(".timer");
+    var questionToDisplay = document.querySelector("#question");
+    var answersToChooseFrom = document.querySelector("#answers");
+    var answerResult = document.querySelector("#result");
+    var storedScores = document.querySelector(".scores");
+    var startButton = document.querySelector(".start-quiz");
+
     var totalQuestions = questions.length;
     var questionsAnswered = [];
     for (var i = 0; i < totalQuestions; i++) {
       questionsAnswered.push(false);
     }
     var questionCounter = -1;
-    var storedScores = document.querySelector(".scores");
-    var startButton = document.querySelector(".start-quiz");
     var secondsLeft = 60;
-    var board = document.querySelector(".main-area");
-    var countdown = document.querySelector("#seconds");
-    var gameTimer = document.querySelector(".timer");
     var timer;
     var completedQuiz = false;
-    var questionToDisplay = document.querySelector("#question");
-    var answersToChooseFrom = document.querySelector("#answers");
-    var answerResult = document.querySelector("#result");
+    
   
     var closeEl = document.querySelector(".close");
     function close() {
