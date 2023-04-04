@@ -3,7 +3,7 @@ Fourth assessment of Berkeley Extention Bootcamp
 
 
 
-[The link to the deployed page](https://liubovsobolevskaya.github.io/code-quiz/)
+[Link to the deployed page](https://liubovsobolevskaya.github.io/code-quiz/)
 _______________________________________
 For this assessment we implent a code quiz with the following qualities:
 
