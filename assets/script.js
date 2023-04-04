@@ -1,24 +1,23 @@
 async function fetchData() {
     try {
-      const response = await fetch('assets/questions_few.json');
+      const response = await fetch("assets/questions.json");
       const data = await response.json();
-      processData(data)
+      processData(data);
     } catch (error) {
       console.error(error);
     }
 }
   
-
 function processData(questions) {
     var modalEl = document.querySelector("#score-container");
     var modalSave = document.querySelector("#save-results");
     var totalQuestions = questions.length;
     var questionsAnswered = [];
-    for (var i=0; i<totalQuestions; i++){
-        questionsAnswered.push(false);
+    for (var i = 0; i < totalQuestions; i++) {
+      questionsAnswered.push(false);
     }
     var questionCounter = -1;
-    var storedScores =  document.querySelector(".scores");
+    var storedScores = document.querySelector(".scores");
     var startButton = document.querySelector(".start-quiz");
     var secondsLeft = 60;
     var board = document.querySelector(".main-area");
@@ -29,181 +28,209 @@ function processData(questions) {
     var questionToDisplay = document.querySelector("#question");
     var answersToChooseFrom = document.querySelector("#answers");
     var answerResult = document.querySelector("#result");
-    
-    
+  
     var closeEl = document.querySelector(".close");
     function close() {
-        modalEl.style.display = "none";
+      modalEl.style.display = "none";
     }
-      
+  
     function handleClick(event) {
-        //check to see if the element clicked is a button
-        
-        //prevent the default behavior of a button nested within a form tag
+        // check to see if the element clicked is a button
+        // (this check is not included in the original code)
+      
+        // prevent the default behavior of a button nested within a form tag
         event.preventDefault();
-          
+      
+        // display the modal
         modalEl.style.display = "block";
-        var scores =  JSON.parse(localStorage.getItem("scores"));
+      
+        // retrieve scores from local storage
+        var scores = JSON.parse(localStorage.getItem("scores"));
+      
+        // select the table element
         table = document.querySelector("#table");
-
-        for (var i =0; i<scores.length; i++){
-            var row = table.insertRow(0);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            console.log(scores[i])
-            cell1.innerHTML = scores[i]["initials"];
-            cell2.innerHTML = scores[i]["score"];
+      
+        // iterate over each score and add it as a row to the table
+        for (var i = 0; i < scores.length; i++) {
+          var row = table.insertRow(0);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          console.log(scores[i]);
+          cell1.innerHTML = scores[i]["initials"];
+          cell2.innerHTML = scores[i]["score"];
         }
-          
-    }
-    closeEl.addEventListener("click", close);
-    storedScores.addEventListener("click", handleClick)
-    function startTimer() {
-        timer = setInterval(function() {
-          secondsLeft--;
-          countdown.textContent = secondsLeft;
-          if (secondsLeft >= 0) {
-            // Tests if win condition is met
-            if (completedQuiz && secondsLeft > 0) {
-              // Clears interval and stops timer
-              clearInterval(timer);
-              winScreen(); 
-            }
-          }
-          // Tests if time has run out
-          if (secondsLeft <= 0 && questionCounter < totalQuestions) {
-            // Clears interval
-            clearInterval(timer);
-            loseScreen();
+      }
+      
 
-
-          }
-        }, 1000);
-    }
-
-    function winScreen(){
     
+    // Set up interval timer
+timer = setInterval(function () {
+
+    // Decrement the number of seconds left
+    secondsLeft--;
+  
+    // Update the countdown element with the new number of seconds left
+    countdown.textContent = secondsLeft;
+  
+    // Check if win condition is met
+    if (secondsLeft >= 0) {
+      if (completedQuiz && secondsLeft > 0) {
+        // If the quiz is completed and there is still time left, stop the timer and display the win screen
+        clearInterval(timer);
+        winScreen();
+      }
+    }
+  
+    // Check if time has run out
+    if (secondsLeft <= 0 && questionCounter < totalQuestions) {
+      // If there is no time left and not all questions have been answered, stop the timer and display the lose screen
+      clearInterval(timer);
+      loseScreen();
+    }
+  }, 1000);
+  
+  
+    function winScreen() {
+      // Clear the quiz display
         answersToChooseFrom.textContent = "";
         questionToDisplay.textContent = "";
         answerResult.textContent = "";
+
+        // Get the "Congratulations" element and display the user's score
         var congrats = document.querySelector(".intro");
         congrats.textContent = `Congratulations! You passed the quiz. Your score is ${secondsLeft}`;
-        congrats.style.fontsize = "50px";
+        congrats.style.fontSize = "50px";
         congrats.style.color = "red";
-        var initials = prompt("Enter you initials")
+
+        // Prompt the user for their initials and save their score to local storage
+        var initials = prompt("Enter your initials");
         var scores = JSON.parse(localStorage.getItem("scores"));
-        if (!scores){
+        if (!scores) {
+            // If no scores are stored, create a new array
             scores = [];
         }
-        scores.push({"initials": initials , "score": secondsLeft})
-        
+        scores.push({ initials: initials, score: secondsLeft });
         localStorage.setItem("scores", JSON.stringify(scores));
-
-  
-
     }
-
-    function loseScreen(){
+  
+    function loseScreen() {
+        // Clear the quiz display
         answersToChooseFrom.textContent = "";
         questionToDisplay.textContent = "";
         answerResult.textContent = "";
-   
-        wasted = document.createElement("img");
+
+        // Add an image to the display to indicate the user has lost
+        var wasted = document.createElement("img");
         wasted.src = "assets/imgs/wasted.jpeg";
         wasted.style.width = "100%";
-        wasted.style.height = "100%"; 
+        wasted.style.height = "100%";
         wasted.style.zindex = "2";
         board.appendChild(wasted);
 
     }
-    
-
-    function startTheQuiz(event){
-
-
+  
+    function startTheQuiz(event) {
+       // Clear any existing content on the page
         document.querySelector(".intro").textContent = "";
         document.querySelector(".title").textContent = "";
-        if (document.querySelector("img")!==null){
+        if (document.querySelector("img") !== null) {
             document.querySelector("img").remove();
         }
+
+        // Clear the quiz display and hide the "Start Quiz" button
         answersToChooseFrom.textContent = "";
         questionToDisplay.textContent = "";
         startButton.disable = true;
-        startButton.style.display = 'none';
+        startButton.style.display = "none";
+
+        // Display the first quiz question and start the timer
         displayQuestion();
         startTimer();
-       
+
     }
-
+  
     var correct_index;
+  
+    function displayQuestion() {
+       // Increment the question counter
+        questionCounter++;
 
-    function displayQuestion(){
-
-        questionCounter ++;
-    
-        if (questionCounter >= totalQuestions && questionCounter>0){
+        // Check if the quiz is completed
+        if (questionCounter >= totalQuestions && questionCounter > 0) {
             completedQuiz = true;
-            
             return;
         }
-               
+
+        // Get the list of wrong answers and correct answer for the current question
         var wrong_answers = questions[questionCounter]["list of wrong answers"];
         var correct_answer = questions[questionCounter]["correct answer"];
+
+        // Display the question text
         questionToDisplay.textContent = questions[questionCounter]["question"];
+
+        // Shuffle the list of wrong answers and insert the correct answer at a random index
         total_answers = wrong_answers.length + 1;
         correct_index = Math.floor(Math.random() * total_answers);
         wrong_answers.splice(correct_index, 0, correct_answer);
-        console.log(wrong_answers)
-    
-        for (var i = 0; i< total_answers; i++){
-            console.log(wrong_answers[i])
+
+        // Display the answer options
+        for (var i = 0; i < total_answers; i++) {
             li = document.createElement("li");
             li.id = i;
-            console.log(typeof wrong_answers[i])
             li.textContent = wrong_answers[i];
             answersToChooseFrom.appendChild(li);
         }
+
     }
+  
+    function selectAnAnswer(event) {
+       // Check if the current question has not been answered
+        if (!questionsAnswered[questionCounter]) {
 
-    function selectAnAnswer(event){
-        if (!questionsAnswered[questionCounter]){
-
+            // Get the element that was clicked
             var element = event.target;
-            console.log(element);
+            // Check if the element is a list item
+            if (element.matches("li")) {
             
-            if (element.matches("li")){ 
+                // Get the index of the answer that was selected
                 index = element.id;
-                element.style.backgroundColor = 'lightblue';
-                element.style.color = 'darkblue';
-     
-                if (index == correct_index){
-                    document.querySelector("#result").textContent = 'Correct!';
-                    }
-                    else{
-                        document.querySelector("#result").textContent = 'Wrong! 5 seconds are subtracted now!';
-                        secondsLeft -= 5;
-                    }
-                
+            
+                // Set the background color and text color of the selected answer
+                element.style.backgroundColor = "lightblue";
+                element.style.color = "darkblue";
+            
+                // Check if the selected answer is correct and display a message accordingly
+                if (index == correct_index) {
+                    document.querySelector("#result").textContent = "Correct!";
+                } else {
+                    document.querySelector("#result").textContent = "Wrong! 5 seconds are subtracted now!";
+                    secondsLeft -= 5;
+                }
+            
+                // Mark the current question as answered and move on to the next question after a delay
                 questionsAnswered[questionCounter] = true;
                 setTimeout(goToNextQuestion, 1000);
-            
             }
         }
-    }
-
-    function goToNextQuestion(){
-        question.textContent = "";
-        answersToChooseFrom.innerHTML = "";
-        document.querySelector("#result").textContent = "";
-        if (questionCounter < totalQuestions && secondsLeft>=0){
-            displayQuestion();
-        }
-       
   
     }
-    
+     
+    // This function clears the previous question, answer options and result message from the board.
+    // Then it checks if there are more questions to display and if there is time left. 
+    //If yes, it calls the function to display the next question.
+    function goToNextQuestion() {
+      question.textContent = "";
+      answersToChooseFrom.innerHTML = "";
+      document.querySelector("#result").textContent = "";
+      if (questionCounter < totalQuestions && secondsLeft >= 0) {
+        displayQuestion();
+      }
+    }
+  
     board.addEventListener("click", selectAnAnswer);
     startButton.addEventListener("click", startTheQuiz);
-    
+    closeEl.addEventListener("click", close);
+    storedScores.addEventListener("click", handleClick);
 }
-fetchData()
+fetchData();
+  

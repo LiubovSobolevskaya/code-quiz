@@ -8,7 +8,10 @@ If you are taking a coding quiz, when you click the start button, a timer will b
 
 ____________________________
 
+## Disclaimer
 
+Questions take from [w3schools](https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS)
+________________________
 
 ## Technology Used 
 
