@@ -99,7 +99,7 @@ function processData(questions) {
 
         // Get the "Congratulations" element and display the user's score
         var congrats = document.querySelector(".intro");
-        congrats.textContent = `Congratulations! You passed the quiz. Your score is ${secondsLeft}`;
+        congrats.textContent = `Congratulations! You passed the quiz. Your score is ${secondsLeft}!`;
         congrats.style.fontSize = "50px";
         congrats.style.color = "red";
 
