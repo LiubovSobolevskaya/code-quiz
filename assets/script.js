@@ -64,31 +64,32 @@ function processData(questions) {
       }
       
 
-    
-    // Set up interval timer
-    timer = setInterval(function () {
-        // Decrement the number of seconds left
-        secondsLeft--;
-    
-        // Update the countdown element with the new number of seconds left
-        countdown.textContent = secondsLeft;
-    
-        // Check if win condition is met
-        if (secondsLeft >= 0) {
-            if (completedQuiz && secondsLeft > 0) {
-                // If the quiz is completed and there is still time left, stop the timer and display the win screen
-                clearInterval(timer);
-                winScreen();
+    function startTimer(){
+            // Set up interval timer
+            timer = setInterval(function () {
+            // Decrement the number of seconds left
+            secondsLeft--;
+        
+            // Update the countdown element with the new number of seconds left
+            countdown.textContent = secondsLeft;
+        
+            // Check if win condition is met
+            if (secondsLeft >= 0) {
+                if (completedQuiz && secondsLeft > 0) {
+                    // If the quiz is completed and there is still time left, stop the timer and display the win screen
+                    clearInterval(timer);
+                    winScreen();
+                }
             }
-        }
-    
-        // Check if time has run out
-        if (secondsLeft <= 0 && questionCounter < totalQuestions) {
-            // If there is no time left and not all questions have been answered, stop the timer and display the lose screen
-            clearInterval(timer);
-            loseScreen();
-        }
-    }, 1000);
+        
+            // Check if time has run out
+            if (secondsLeft <= 0 && questionCounter < totalQuestions) {
+                // If there is no time left and not all questions have been answered, stop the timer and display the lose screen
+                clearInterval(timer);
+                loseScreen();
+            }
+        }, 1000);
+    }
   
   
     function winScreen() {
@@ -233,5 +234,7 @@ function processData(questions) {
     closeEl.addEventListener("click", close);
     storedScores.addEventListener("click", handleClick);
 }
+
+
 fetchData();
   
