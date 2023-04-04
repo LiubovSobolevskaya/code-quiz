@@ -17,7 +17,7 @@ function processData(questions) {
     var answerResult = document.querySelector("#result");
     var storedScores = document.querySelector("#scores");
     var startButton = document.querySelector("#start-quiz");
-
+    var lost = false;
     var totalQuestions = questions.length;
     var questionsAnswered = [];
     for (var i = 0; i < totalQuestions; i++) {
@@ -82,7 +82,9 @@ function processData(questions) {
             if (secondsLeft <= 0 && questionCounter < totalQuestions) {
                 // If there is no time left and not all questions have been answered, stop the timer and display the lose screen
                 clearInterval(timer);
+                lost = true;
                 loseScreen();
+
             }
         }, 1000);
     }
@@ -220,7 +222,7 @@ function processData(questions) {
       question.textContent = "";
       answersToChooseFrom.innerHTML = "";
       document.querySelector("#result").textContent = "";
-      if (questionCounter < totalQuestions && secondsLeft >= 0) {
+      if (questionCounter < totalQuestions && secondsLeft >= 0 && !lost) {
         displayQuestion();
       }
     }
