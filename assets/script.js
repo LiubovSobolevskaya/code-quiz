@@ -37,9 +37,6 @@ function processData(questions) {
     }
   
     function handleClick(event) {
-        // check to see if the element clicked is a button
-        // (this check is not included in the original code)
-      
         // prevent the default behavior of a button nested within a form tag
         event.preventDefault();
       
