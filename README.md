@@ -22,7 +22,7 @@ ________________________
 
 ## Web application's appearance and functionality
 
-![](to be added later)
+![](assets/imgs/video-to-gif.gif)
 
 ## Author Info
 
