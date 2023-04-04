@@ -8,8 +8,10 @@ async function fetchData() {
     }
 }
   
+
 function processData(questions) {
-    
+    var modalEl = document.querySelector("#score-container");
+    var modalSave = document.querySelector("#save-results");
     var totalQuestions = questions.length;
     var questionsAnswered = [];
     for (var i=0; i<totalQuestions; i++){
@@ -27,6 +29,34 @@ function processData(questions) {
     var questionToDisplay = document.querySelector("#question");
     var answersToChooseFrom = document.querySelector("#answers");
     var answerResult = document.querySelector("#result");
+    
+    
+    var closeEl = document.querySelector(".close");
+    function close() {
+        modalEl.style.display = "none";
+    }
+      
+    function handleClick(event) {
+        //check to see if the element clicked is a button
+        
+          //prevent the default behavior of a button nested within a form tag
+        event.preventDefault();
+          
+        modalEl.style.display = "block";
+        var scores =  JSON.parse(localStorage.getItem("scores"));
+        table = document.querySelector("#table");
+
+        for (var i =0; i<scores.length; i++){
+            var row = table.insertRow(0);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = scores[i]["initials"];
+            cell2.innerHTML = scores[i]["score"];
+        }
+          
+    }
+    closeEl.addEventListener("click", close);
+    storedScores.addEventListener("click", handleClick)
     function startTimer() {
         timer = setInterval(function() {
           secondsLeft--;
@@ -59,19 +89,21 @@ function processData(questions) {
         congrats.textContent = `Congratulations! You passed the quiz. Your score is ${secondsLeft}`;
         congrats.style.fontsize = "50px";
         congrats.style.color = "red";
-        startButton.disable = false;
-        startButton.style.display = "initial";
-        startButton.textContent = "Try again?";
-        startButton.style.position = "relative";
-        startButton.style.bottom = "70px";
-        startButton.style.marginleft = "auto";
-        startButton.style.marginright = "auto";
-        startButton.style.zindex = "3";
-        storedScores.style.display = "none";
-        gameTimer.style.display = "none";
-        resetAllValues();
+        callSaving()
+
     }
- 
+    function callSaving(){
+        modalSave.style.display = "block";
+        var nameEl = document.querySelector("#initials");
+        var name = nameEl.value;
+        var scores = JSON.parse(localStorage.getItem("scores"));
+        if (!scores){
+            scores = [];
+        }
+        scores.push({"initials":name, "score": secondsLeft})
+        
+        localStorage.setItem("ArrayStringify", JSON.stringify(scores));
+    }
     function loseScreen(){
         answersToChooseFrom.textContent = "";
         questionToDisplay.textContent = "";
@@ -83,32 +115,11 @@ function processData(questions) {
         wasted.style.height = "100%"; 
         wasted.style.zindex = "2";
         board.appendChild(wasted);
-        startButton.disable = false;
-        startButton.style.display = "initial";
-        startButton.textContent = "Start again?";
-        startButton.style.position = "relative";
-        startButton.style.bottom = "70px";
-        startButton.style.marginleft = "auto";
-        startButton.style.marginright = "auto";
-        startButton.style.zindex = "3";
-        storedScores.style.display = "none";
-        gameTimer.style.display = "none";
-        resetAllValues();
-    
-    }
-    
-    function resetAllValues(){
-        storedScores.style.display = "initial";
-        gameTimer.style.display = "initial";
-        questionCounter = -1;
-        questionsAnswered = [];
-        for (var i=0; i<totalQuestions; i++){
-            questionsAnswered.push(false);
-        }
-        clearInterval(timer);
-        secondsLeft = 60;
+      
 
+    
     }
+    
 
     function startTheQuiz(event){
 
