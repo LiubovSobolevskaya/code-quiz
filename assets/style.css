@@ -31,7 +31,11 @@
     background-color: blueviolet;
     color:white;
     border-radius: 10px;
+    text-decoration: none;
+    list-style-type: none;
+
 }
+
 
 .main-area ul li:hover{
     box-shadow: inset 0px 0px 8px pink, 0 0 15px blue;
@@ -39,7 +43,7 @@
 .main-board{
     margin: 35px auto;
     text-align: center;
-    width: 70%
+    width: 100%
 }
 .timer{
     position: absolute;

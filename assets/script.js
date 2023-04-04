@@ -1,6 +1,6 @@
 async function fetchData() {
     try {
-      const response = await fetch('assets/questions.json');
+      const response = await fetch('assets/questions_few.json');
       const data = await response.json();
       processData(data)
     } catch (error) {
@@ -21,70 +21,124 @@ function processData(questions) {
     var secondsLeft = 60;
     var board = document.querySelector(".main-area");
     var countdown = document.querySelector("#seconds");
+    var gameTimer = document.querySelector(".timer");
     var timer;
     var completedQuiz = false;
-
+    var questionToDisplay = document.querySelector("#question");
+    var answersToChooseFrom = document.querySelector("#answers");
+    var answerResult = document.querySelector("#result");
     function startTimer() {
         timer = setInterval(function() {
           secondsLeft--;
           countdown.textContent = secondsLeft;
           if (secondsLeft >= 0) {
             // Tests if win condition is met
-            if (completedQuiz && econdsLeft > 0) {
+            if (completedQuiz && secondsLeft > 0) {
               // Clears interval and stops timer
               clearInterval(timer);
               winScreen(); 
             }
           }
           // Tests if time has run out
-          if (secondsLeft <= 0) {
+          if (secondsLeft <= 0 && questionCounter < totalQuestions) {
             // Clears interval
             clearInterval(timer);
             loseScreen();
+
+
           }
         }, 1000);
     }
-    
-    function winScreen(){
-        board.innerHTML = "";
-        congr = document.createElement("h1");
-        congr.textContent = `Congratulations! You passt the quiz. Your score is ${secondsLeft}`;
-        board.appendChild(congr);
-    }
 
+    function winScreen(){
+    
+        answersToChooseFrom.textContent = "";
+        questionToDisplay.textContent = "";
+        answerResult.textContent = "";
+        var congrats = document.querySelector(".intro");
+        congrats.textContent = `Congratulations! You passed the quiz. Your score is ${secondsLeft}`;
+        congrats.style.fontsize = "50px";
+        congrats.style.color = "red";
+        startButton.disable = false;
+        startButton.style.display = "initial";
+        startButton.textContent = "Try again?";
+        startButton.style.position = "relative";
+        startButton.style.bottom = "70px";
+        startButton.style.marginleft = "auto";
+        startButton.style.marginright = "auto";
+        startButton.style.zindex = "3";
+        storedScores.style.display = "none";
+        gameTimer.style.display = "none";
+        resetAllValues();
+    }
+ 
     function loseScreen(){
-        board.innerHTML = "";
+        answersToChooseFrom.textContent = "";
+        questionToDisplay.textContent = "";
+        answerResult.textContent = "";
+   
         wasted = document.createElement("img");
         wasted.src = "assets/imgs/wasted.jpeg";
-        wasted.width = 80%
+        wasted.style.width = "100%";
+        wasted.style.height = "100%"; 
+        wasted.style.zindex = "2";
         board.appendChild(wasted);
+        startButton.disable = false;
+        startButton.style.display = "initial";
+        startButton.textContent = "Start again?";
+        startButton.style.position = "relative";
+        startButton.style.bottom = "70px";
+        startButton.style.marginleft = "auto";
+        startButton.style.marginright = "auto";
+        startButton.style.zindex = "3";
+        storedScores.style.display = "none";
+        gameTimer.style.display = "none";
+        resetAllValues();
+    
     }
+    
+    function resetAllValues(){
+        storedScores.style.display = "initial";
+        gameTimer.style.display = "initial";
+        questionCounter = -1;
+        questionsAnswered = [];
+        for (var i=0; i<totalQuestions; i++){
+            questionsAnswered.push(false);
+        }
+        clearInterval(timer);
+        secondsLeft = 60;
 
+    }
 
     function startTheQuiz(event){
 
-        board.innerHTML = "";
+
+        document.querySelector(".intro").textContent = "";
+        document.querySelector(".title").textContent = "";
+        if (document.querySelector("img")!==null){
+            document.querySelector("img").remove();
+        }
+        answersToChooseFrom.textContent = "";
+        questionToDisplay.textContent = "";
+        startButton.disable = true;
+        startButton.style.display = 'none';
         displayQuestion();
         startTimer();
-        board.appendChild(answers);
-
+       
     }
 
     var correct_index;
-    var answers;
 
     function displayQuestion(){
+
         questionCounter ++;
-        if (questions[questionCounter]== null){
-            won = true;
+    
+        if (questionCounter >= totalQuestions && questionCounter>0){
+            completedQuiz = true;
+            
             return;
         }
-        var questionToDisplay = document.createElement("p");
-        questionToDisplay.id = "question"
-        board.appendChild(questionToDisplay)
-        answers = document.createElement("ul");
-        board.appendChild(answers)
-        
+               
         var wrong_answers = questions[questionCounter]["list of wrong answers"];
         var correct_answer = questions[questionCounter]["correct answer"];
         questionToDisplay.textContent = questions[questionCounter]["question"];
@@ -99,7 +153,7 @@ function processData(questions) {
             li.id = i;
             console.log(typeof wrong_answers[i])
             li.textContent = wrong_answers[i];
-            answers.appendChild(li);
+            answersToChooseFrom.appendChild(li);
         }
     }
 
@@ -111,15 +165,14 @@ function processData(questions) {
             
             if (element.matches("li")){ 
                 index = element.id;
-                
-                var result = document.createElement("h3");
-                board.appendChild(result);  
-                result.id = "result";
+                element.style.backgroundColor = 'lightblue';
+                element.style.color = 'darkblue';
+     
                 if (index == correct_index){
-                        result.textContent = 'Correct!';
+                    document.querySelector("#result").textContent = 'Correct!';
                     }
                     else{
-                        result.textContent = 'Wrong! 5 seconds are subtracted now!';
+                        document.querySelector("#result").textContent = 'Wrong! 5 seconds are subtracted now!';
                         secondsLeft -= 5;
                     }
                 
@@ -131,17 +184,18 @@ function processData(questions) {
     }
 
     function goToNextQuestion(){
-        if (questionCounter < totalQuestions && secondsLeft>0){
-            board.innerHTML = "";
+        question.textContent = "";
+        answersToChooseFrom.innerHTML = "";
+        document.querySelector("#result").textContent = "";
+        if (questionCounter < totalQuestions && secondsLeft>=0){
             displayQuestion();
         }
-        else{
-            won = True;
-        }
+       
+  
     }
-
+    
     board.addEventListener("click", selectAnAnswer);
-    startButton.addEventListener("click", startTheQuiz)
-
+    startButton.addEventListener("click", startTheQuiz);
+    
 }
 fetchData()

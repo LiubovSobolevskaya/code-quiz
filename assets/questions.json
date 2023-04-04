@@ -59,8 +59,23 @@
     },
     {
         "question":"How does a FOR loop start?",
-        "correct answer": "for (i = 0; i <= 5; i++)  ",
+        "correct answer": "for (i = 0; i <= 5; i++)",
         "list of wrong answers": ["for i = 1 to 5", "for (i <= 5; i++)", "for (i = 0; i <= 5)"]
+    },
+    {
+        "question":"How can you add a comment in a JavaScript?",
+        "correct answer": "//This is a comment",
+        "list of wrong answers": ["'This is a comment", "<!--This is a comment-->", "#This is a comment"] 
+    },
+    {
+        "question":"How to insert a comment that has more than one line?",
+        "correct answer": "/*This comment has\n more than one line*/  ",
+        "list of wrong answers": ["//This comment has\nmore than one line//", "<<!--This comment has\nmore than one line-->"] 
+    },
+    {
+        "question": "What is the correct way to write a JavaScript array?",
+        "correct answer": "var colors = [\"red\", \"green\", \"blue\"]" ,
+        "list of wrong answers": ["var colors = (1:\"red\", 2:\"green\", 3:\"blue\")", "var colors = \"red\", \"green\", \"blue\"", "var colors = 1 = (\"red\"), 2 = (\"green\"), 3 = (\"blue\")"]
     }
 
 ]
