@@ -36,6 +36,7 @@ function processData(questions) {
     }
   
     function handleClick(event) {
+     
         // prevent the default behavior of a button nested within a form tag
         event.preventDefault();
       
@@ -47,7 +48,7 @@ function processData(questions) {
       
         // select the table element
         table = document.querySelector("#table");
-      
+        table.innerHTML = "";
         // iterate over each score and add it as a row to the table
         for (var i = 0; i < scores.length; i++) {
           var row = table.insertRow(0);
@@ -124,8 +125,9 @@ function processData(questions) {
         wasted.src = "assets/imgs/wasted.jpeg";
         wasted.style.width = "100%";
         wasted.style.height = "100%";
-        wasted.style.zindex = "2";
         board.appendChild(wasted);
+    
+
 
     }
   

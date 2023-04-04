@@ -78,12 +78,12 @@ h1 {
     display: none;
     width: 100px;
     margin: 15px auto;
-
 }
 
 #score-container h2{
     color: blue;
     text-align: center;
+    z-index: 2;
 }
 
 #table{

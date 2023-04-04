@@ -13,7 +13,7 @@ ____________________________
 
 ## Disclaimer
 
-Questions take from [w3schools](https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS)
+Questions taken from [w3schools](https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS)
 ________________________
 
 ## Technology Used 
