@@ -1,15 +1,19 @@
+body{
+    background-color: azure;
+}
+
 .scores{
     position: absolute;
     left: 0;
     top: 0;
 }
-.main-area {
+#main-area {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.main-area #question{
+#main-area #question{
 
    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
    color:blue;
@@ -18,7 +22,7 @@
    width: 70%
 }
 
-.main-area ul {
+#main-area ul {
 
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin: 10px auto;
@@ -26,7 +30,7 @@
     width: 70%
  }
  
-.main-area ul li{
+#main-area ul li{
     margin: 10px auto;
     background-color: blueviolet;
     color:white;
@@ -35,9 +39,12 @@
     list-style-type: none;
 
 }
+.intro{
+      width: 40%;
+      margin: 0 auto;
+}
 
-
-.main-area ul li:hover{
+#main-area ul li:hover{
     box-shadow: inset 0px 0px 8px pink, 0 0 15px blue;
 } 
 .main-board{
@@ -45,7 +52,7 @@
     text-align: center;
     width: 100%
 }
-.timer{
+#timer{
     position: absolute;
     right:0;
     top: 0;
@@ -55,8 +62,10 @@ h1 {
     margin: 35px auto;
 }
 
-.start-quiz{
+#start-quiz{
     margin: 35px auto;
+    background-color: aquamarine;
+    border-radius: 5px;
 }
 
 #result{
@@ -67,8 +76,25 @@ h1 {
 }
 #score-container{
     display: none;
+    width: 100px;
+    margin: 15px auto;
+
 }
 
+#score-container h2{
+    color: blue;
+    text-align: center;
+}
+
+#table{
+    border: solid blue;
+
+    margin: 35px auto;
+    background-color: rgb(103, 174, 200);
+    mask-repeat: no-repeat;
+
+}
 #save-results{
     display: none;
 }
+

@@ -10,15 +10,13 @@ async function fetchData() {
   
 function processData(questions) {
     var modalEl = document.querySelector("#score-container");
-    var modalSave = document.querySelector("#save-results");
-    var board = document.querySelector(".main-area");
+    var board = document.querySelector("#main-area");
     var countdown = document.querySelector("#seconds");
-    var gameTimer = document.querySelector(".timer");
     var questionToDisplay = document.querySelector("#question");
     var answersToChooseFrom = document.querySelector("#answers");
     var answerResult = document.querySelector("#result");
-    var storedScores = document.querySelector(".scores");
-    var startButton = document.querySelector(".start-quiz");
+    var storedScores = document.querySelector("#scores");
+    var startButton = document.querySelector("#start-quiz");
 
     var totalQuestions = questions.length;
     var questionsAnswered = [];
@@ -34,6 +32,7 @@ function processData(questions) {
     var closeEl = document.querySelector(".close");
     function close() {
       modalEl.style.display = "none";
+      document.querySelector("#table").innerHTML = "";
     }
   
     function handleClick(event) {
