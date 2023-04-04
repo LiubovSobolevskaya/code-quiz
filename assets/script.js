@@ -39,7 +39,7 @@ function processData(questions) {
     function handleClick(event) {
         //check to see if the element clicked is a button
         
-          //prevent the default behavior of a button nested within a form tag
+        //prevent the default behavior of a button nested within a form tag
         event.preventDefault();
           
         modalEl.style.display = "block";
@@ -50,6 +50,7 @@ function processData(questions) {
             var row = table.insertRow(0);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
+            console.log(scores[i])
             cell1.innerHTML = scores[i]["initials"];
             cell2.innerHTML = scores[i]["score"];
         }
@@ -89,21 +90,19 @@ function processData(questions) {
         congrats.textContent = `Congratulations! You passed the quiz. Your score is ${secondsLeft}`;
         congrats.style.fontsize = "50px";
         congrats.style.color = "red";
-        callSaving()
-
-    }
-    function callSaving(){
-        modalSave.style.display = "block";
-        var nameEl = document.querySelector("#initials");
-        var name = nameEl.value;
+        var initials = prompt("Enter you initials")
         var scores = JSON.parse(localStorage.getItem("scores"));
         if (!scores){
             scores = [];
         }
-        scores.push({"initials":name, "score": secondsLeft})
+        scores.push({"initials": initials , "score": secondsLeft})
         
-        localStorage.setItem("ArrayStringify", JSON.stringify(scores));
+        localStorage.setItem("scores", JSON.stringify(scores));
+
+  
+
     }
+
     function loseScreen(){
         answersToChooseFrom.textContent = "";
         questionToDisplay.textContent = "";
@@ -115,9 +114,7 @@ function processData(questions) {
         wasted.style.height = "100%"; 
         wasted.style.zindex = "2";
         board.appendChild(wasted);
-      
 
-    
     }
     
 
