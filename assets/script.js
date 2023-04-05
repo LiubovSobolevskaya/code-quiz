@@ -17,7 +17,7 @@ function processData(questions) {
     var answerResult = document.querySelector("#result");
     var storedScores = document.querySelector("#scores");
     var startButton = document.querySelector("#start-quiz");
-    var lost = false;
+    
     var totalQuestions = questions.length;
     var questionsAnswered = [];
     for (var i = 0; i < totalQuestions; i++) {
@@ -27,12 +27,12 @@ function processData(questions) {
     var secondsLeft = 60;
     var timer;
     var completedQuiz = false;
+    var lost = false;
     
   
     var closeEl = document.querySelector(".close");
     function close() {
       modalEl.style.display = "none";
-      document.querySelector("#table").innerHTML = "";
     }
   
     function handleClick(event) {
@@ -90,9 +90,9 @@ function processData(questions) {
         }, 1000);
     }
   
-  
+
     function winScreen() {
-      // Clear the quiz display
+       // Clear the quiz display
         answersToChooseFrom.textContent = "";
         questionToDisplay.textContent = "";
         answerResult.textContent = "";
@@ -104,16 +104,59 @@ function processData(questions) {
         congrats.style.color = "red";
 
         // Prompt the user for their initials and save their score to local storage
-        var initials = prompt("Enter your initials");
-        var scores = JSON.parse(localStorage.getItem("scores"));
-        if (!scores) {
-            // If no scores are stored, create a new array
-            scores = [];
-        }
-        scores.push({ initials: initials, score: secondsLeft });
-        localStorage.setItem("scores", JSON.stringify(scores));
+        // var initials = prompt("Enter your initials");
+        var inputForm = document.createElement("input");
+        var labelForm = document.createElement("label");
+        var inputFormDiv= document.createElement("div");
+        var buttonForm = document.createElement("button");
+        buttonForm.textContent = "Save Initials"
+        inputForm.style.width = "100px";
+        inputFormDiv.style.margin = "20px auto";
+        buttonForm.style.margin = "20px auto";
+        buttonForm.style.width = "100px";
+        labelForm.textContent = "Please enter you Initials: "
+        inputFormDiv.appendChild( labelForm );
+        inputFormDiv.appendChild( inputForm );
+        board.append(inputFormDiv) 
+        board.appendChild( buttonForm);
+        
+        
+        buttonForm.addEventListener("click",  function(){
+          initials = inputForm.value;
+          if ( initials !== ""){
+            var scores = JSON.parse(localStorage.getItem("scores"));
+            if (!scores) {
+                // If no scores are stored, create a new array
+                scores = [];
+            }
+            scores.push({ initials: initials, score: secondsLeft });
+            localStorage.setItem("scores", JSON.stringify(scores));
+            // after we added the initials, the form disapears and we offer to try again.
+            buttonForm.remove(); 
+            inputFormDiv.remove();
+            startButton.disable = false;
+            startButton.style.display = "initial";
+            startButton.textContent = "Try again?"
+          }
+
+        });
+
+       
     }
-  
+    
+    function resetAll(){
+      lost = false;
+      questionCounter = -1;
+      secondsLeft = 60;
+      completedQuiz = false;
+      questionsAnswered = [];
+      for (var i = 0; i < totalQuestions; i++) {
+        questionsAnswered.push(false);
+      }
+
+    }
+   
+
     function loseScreen() {
         // Clear the quiz display
         answersToChooseFrom.textContent = "";
@@ -122,16 +165,21 @@ function processData(questions) {
 
         // Add an image to the display to indicate the user has lost
         var wasted = document.createElement("img");
-        wasted.src = "assets/imgs/wasted.jpeg";
+        wasted.src = "assets/imgs/wasted.jpeg"; 
+        wasted.style.position = "absolute"; 
+        wasted.style.top = "35px"; 
         wasted.style.width = "100%";
         wasted.style.height = "100%";
         board.appendChild(wasted);
-    
+        startButton.disable = false;
+        startButton.style.display = "initial";
+        startButton.textContent = "Try again?"
 
-
+  
     }
   
     function startTheQuiz(event) {
+        resetAll()
        // Clear any existing content on the page
         document.querySelector(".intro").textContent = "";
         document.querySelector(".title").textContent = "";
@@ -164,7 +212,7 @@ function processData(questions) {
         }
 
         // Get the list of wrong answers and correct answer for the current question
-        var wrong_answers = questions[questionCounter]["list of wrong answers"];
+        var wrong_answers = Array.from(questions[questionCounter]["list of wrong answers"]);
         var correct_answer = questions[questionCounter]["correct answer"];
 
         // Display the question text
@@ -174,7 +222,7 @@ function processData(questions) {
         total_answers = wrong_answers.length + 1;
         correct_index = Math.floor(Math.random() * total_answers);
         wrong_answers.splice(correct_index, 0, correct_answer);
-
+        console.log(questions[questionCounter]["list of wrong answers"])
         // Display the answer options
         for (var i = 0; i < total_answers; i++) {
             li = document.createElement("li");
@@ -182,6 +230,7 @@ function processData(questions) {
             li.textContent = wrong_answers[i];
             answersToChooseFrom.appendChild(li);
         }
+
 
     }
   
